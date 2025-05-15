@@ -1,0 +1,4 @@
+name: MobCoinCore
+version: '1'
+main: com.czrbyn.mobCoinCore.MobCoinCore
+api-version: '1.21'
