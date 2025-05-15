@@ -10,4 +10,8 @@ public class MainConfigManager {
         mcc = MobCoinCore.getInstance();
     }
 
+    public void reload() {
+        mcc.saveConfig();
+    }
+
 }
