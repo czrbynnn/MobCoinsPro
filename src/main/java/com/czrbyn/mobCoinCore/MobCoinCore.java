@@ -6,8 +6,10 @@ import com.czrbyn.mobCoinCore.commands.MainCommandTabCompletor;
 import com.czrbyn.mobCoinCore.commands.subcommands.*;
 import com.czrbyn.mobCoinCore.data.MainConfigManager;
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
+import com.czrbyn.mobCoinCore.guis.LeaderBoardGUI;
 import com.czrbyn.mobCoinCore.listeners.PlayerJoinListener;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public final class MobCoinCore extends JavaPlugin {
     private MainCommand mcmd;
 
     private PlayerJoinListener pjl;
+    private LeaderBoardGUI lbgui;
 
 
 
@@ -38,6 +41,10 @@ public final class MobCoinCore extends JavaPlugin {
         plugin = this;
         mcm = new MainConfigManager();
         mcoinm = new MobCoinManager();
+
+        ConfigurationSerialization.registerClass(ShopItem.class);
+
+        registerListeners();
 
         registerCommands();
 
@@ -66,6 +73,9 @@ public final class MobCoinCore extends JavaPlugin {
     public void registerListeners() {
         pjl = new PlayerJoinListener();
         Bukkit.getPluginManager().registerEvents(pjl, this);
+
+        lbgui = new LeaderBoardGUI();
+        Bukkit.getPluginManager().registerEvents(lbgui, this);
     }
 
     public static MobCoinCore getInstance() {
@@ -92,4 +102,7 @@ public final class MobCoinCore extends JavaPlugin {
         return mcoinm;
     }
 
+    public LeaderBoardGUI getLbgui() {
+        return lbgui;
+    }
 }

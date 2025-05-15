@@ -10,42 +10,116 @@ import org.bukkit.entity.Player;
 public class GiveTakeSetSubCommand {
 
     public void Give(CommandSender sender, String[] args, MobCoinManager mcm) {
-        if (sender.hasPermission("mobcoinspro.admin") || sender.hasPermission("mobcoinspro.givemobcoins")) {
-            Player onlinePlayer = Bukkit.getPlayerExact(args[1]);
+        if (!sender.hasPermission("mobcoinspro.admin") && !sender.hasPermission("mobcoinspro.givemobcoins")) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cYou do not have permission to use this command."));
+            return;
+        }
 
-            if (onlinePlayer != null) {
-                if (onlinePlayer.hasPlayedBefore()) {
-                    if (Integer.parseInt(args[2]) > 0) {
-                        sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou have set " + onlinePlayer.getName() + "'s &emobcoins&f to &e") + args[2]);
-                        mcm.addMobcoinsToPlayer(onlinePlayer, Integer.parseInt(args[2]));
-                    } else {
-                        sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fPlease provide a valid integer."));
-                    }
-                } else {
-                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fhas not played before!"));
-                }
-            } else {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                if (offlinePlayer.hasPlayedBefore()) {
-                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &f" + args[1] + " has &e$" + mcm.getPlayerMobcoins((Player) offlinePlayer)) + " &emobcoins&f!");
-                } else {
-                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] " + args[1] + " &fhas not played before!"));
-                }
+        if (args.length < 3) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cUsage: /mobcoins give <player> <amount>"));
+            return;
+        }
 
-            }
+        String playerName = args[1];
+        int amount;
+
+        try {
+            amount = Integer.parseInt(args[2]);
+            if (amount <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlease provide a valid positive integer amount."));
+            return;
+        }
+
+        Player onlinePlayer = Bukkit.getPlayerExact(playerName);
+        if (onlinePlayer != null) {
+            mcm.addMobcoinsToPlayer(onlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou gave &e" + amount + " &e\uD83E\uDE99 Mobcoins&f to &a" + onlinePlayer.getName()));
+            return;
+        }
+
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+        if (offlinePlayer.hasPlayedBefore()) {
+            mcm.addMobcoinsToPlayer(offlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou gave &e" + amount + " &e\uD83E\uDE99 Mobcoins&f to &a" + offlinePlayer.getName()));
+        } else {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlayer '" + playerName + "' has never joined before."));
         }
     }
 
     public void Set(CommandSender sender, String[] args, MobCoinManager mcm) {
-        if (sender.hasPermission("mobcoinspro.admin") || sender.hasPermission("mobcoinspro.setmobcoins")) {
+        if (!sender.hasPermission("mobcoinspro.admin") && !sender.hasPermission("mobcoinspro.setmobcoins")) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cYou do not have permission to use this command."));
+            return;
+        }
 
+        if (args.length < 3) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cUsage: /mobcoins set <player> <amount>"));
+            return;
+        }
+
+        String playerName = args[1];
+        int amount;
+
+        try {
+            amount = Integer.parseInt(args[2]);
+            if (amount < 0) amount = 0;
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlease provide a valid integer amount."));
+            return;
+        }
+
+        Player onlinePlayer = Bukkit.getPlayerExact(playerName);
+        if (onlinePlayer != null) {
+            mcm.setMobcoins(onlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou set &a" + onlinePlayer.getName() + "'s &e\uD83E\uDE99 Mobcoins&f to &e" + amount));
+            return;
+        }
+
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+        if (offlinePlayer.hasPlayedBefore()) {
+            mcm.setMobcoins(offlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou set &a" + offlinePlayer.getName() + "'s &e\uD83E\uDE99 Mobcoins&f to &e" + amount));
+        } else {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlayer '" + playerName + "' has never joined before."));
         }
     }
 
     public void Take(CommandSender sender, String[] args, MobCoinManager mcm) {
-        if (sender.hasPermission("mobcoinspro.admin") || sender.hasPermission("mobcoinspro.takemobcoins")) {
+        if (!sender.hasPermission("mobcoinspro.admin") && !sender.hasPermission("mobcoinspro.takemobcoins")) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cYou do not have permission to use this command."));
+            return;
+        }
 
+        if (args.length < 3) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cUsage: /mobcoins take <player> <amount>"));
+            return;
+        }
+
+        String playerName = args[1];
+        int amount;
+
+        try {
+            amount = Integer.parseInt(args[2]);
+            if (amount <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlease provide a valid positive integer amount."));
+            return;
+        }
+
+        Player onlinePlayer = Bukkit.getPlayerExact(playerName);
+        if (onlinePlayer != null) {
+            mcm.removeMobcoinsFromPlayer(onlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou removed &e" + amount + " &e\uD83E\uDE99 Mobcoins&f from &a" + onlinePlayer.getName()));
+            return;
+        }
+
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
+        if (offlinePlayer.hasPlayedBefore()) {
+            mcm.removeMobcoinsFromPlayer(offlinePlayer, amount);
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou removed &e" + amount + " &e\uD83E\uDE99 Mobcoins&f from &a" + offlinePlayer.getName()));
+        } else {
+            sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &cPlayer '" + playerName + "' has never joined before."));
         }
     }
-
 }

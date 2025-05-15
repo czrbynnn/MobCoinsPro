@@ -1,6 +1,8 @@
+com\czrbyn\mobCoinCore\listeners\PlayerJoinListener.class
 com\czrbyn\mobCoinCore\commands\MainCommand.class
 com\czrbyn\mobCoinCore\commands\subcommands\BalanceSubCommand.class
 com\czrbyn\mobCoinCore\MobCoinCore.class
+com\czrbyn\mobCoinCore\guis\LeaderBoardGUI.class
 com\czrbyn\mobCoinCore\data\MainConfigManager.class
 com\czrbyn\mobCoinCore\commands\subcommands\VersionSubCommand.class
 com\czrbyn\mobCoinCore\data\MobCoinManager.class
@@ -9,3 +11,4 @@ com\czrbyn\mobCoinCore\api\MobCoinAPI.class
 com\czrbyn\mobCoinCore\commands\MainCommandTabCompletor.class
 com\czrbyn\mobCoinCore\commands\subcommands\HelpSubCommand.class
 com\czrbyn\mobCoinCore\commands\subcommands\ReloadSubCommand.class
+com\czrbyn\mobCoinCore\commands\subcommands\GiveTakeSetSubCommand.class

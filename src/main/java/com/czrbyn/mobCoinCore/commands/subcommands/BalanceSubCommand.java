@@ -14,14 +14,14 @@ public class BalanceSubCommand {
             Player onlinePlayer = Bukkit.getPlayerExact(args[1]);
             if (onlinePlayer != null) {
                 if (onlinePlayer.hasPlayedBefore()) {
-                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &f" + args[1] + " has &e$" + mcm.getPlayerMobcoins(onlinePlayer) + " &emobcoins&f!"));
+                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &f" + args[1] + " has &e$" + mcm.getPlayerMobcoins(onlinePlayer) + " &e \uD83E\uDE99 mobcoins&f!"));
                 } else {
                     sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fhas not played before!"));
                 }
             } else {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
                 if (offlinePlayer.hasPlayedBefore()) {
-                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &f" + args[1] + " has &e$" + mcm.getPlayerMobcoins((Player) offlinePlayer)) + " &emobcoins&f!");
+                    sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &f" + args[1] + " has &e$" + mcm.getPlayerMobcoins(offlinePlayer)) + " &e \uD83E\uDE99 mobcoins&f!");
                 } else {
                     sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] " + args[1] + " &fhas not played before!"));
                 }
@@ -30,7 +30,7 @@ public class BalanceSubCommand {
         } else if (args.length == 1) {
             if (sender instanceof Player) {
                 var i = mcm.getPlayerMobcoins((Player) sender);
-                sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou have &e$" + i + " mobcoins&f!"));
+                sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fYou have &e\uD83E\uDE99" + i + " mobcoins&f!"));
             }
         }
     }

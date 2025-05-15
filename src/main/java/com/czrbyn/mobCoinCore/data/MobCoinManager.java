@@ -2,6 +2,7 @@ package com.czrbyn.mobCoinCore.data;
 
 import com.czrbyn.mobCoinCore.MobCoinCore;
 import com.czrbyn.mobCoinCore.utils.ColorUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -29,48 +30,59 @@ public class MobCoinManager {
         }
     }
 
-    public Integer getPlayerMobcoins(Player p) {
+    public File getFile() {
+        return file;
+    }
+
+    public Integer getPlayerMobcoins(OfflinePlayer p) {
         if (file.exists()) {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             return cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
-        } else {
-            return 0;
+        }
+        return 0;
+    }
+
+    public void removeMobcoinsFromPlayer(OfflinePlayer p, int toRemove) {
+        if (!file.exists()) return;
+
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        int current = cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
+        int newAmount = Math.max(current - toRemove, 0);
+        cfg.set(p.getUniqueId() + ".mobcoins", newAmount);
+        saveConfig(cfg);
+    }
+
+    public void addMobcoinsToPlayer(OfflinePlayer p, int toAdd) {
+        if (!file.exists()) return;
+
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        int current = cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
+        int newAmount = current + toAdd;
+
+        if (newAmount < 0) {
+            newAmount = 0;
+        }
+
+        cfg.set(p.getUniqueId() + ".mobcoins", newAmount);
+        saveConfig(cfg);
+    }
+
+    public void setMobcoins(OfflinePlayer p, int value) {
+        if (!file.exists()) return;
+
+        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+        cfg.set(p.getUniqueId() + ".mobcoins", Math.max(value, 0));
+        saveConfig(cfg);
+    }
+
+    private void saveConfig(FileConfiguration cfg) {
+        try {
+            cfg.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void removeMobcoinsFromPlayer(Player p, Integer toRemove) {
-        if (file.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-            var amount = cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
-            if (toRemove >= amount) {
-                var i = toRemove - amount;
-                cfg.set(p.getUniqueId() + ".mobcoins", i);
-            }
-        }
-    }
-
-    public void addMobcoinsToPlayer(Player p, Integer toAdd) {
-        if (file.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-            if (toAdd < 0) {
-                removeMobcoinsFromPlayer(p, toAdd);
-            } else {
-                var i = (cfg.getInt(p.getUniqueId() + ".mobcoins", 0) + toAdd);
-                cfg.set(p.getUniqueId() + ".mobcoins", i);
-            }
-        }
-    }
-
-    public void setMobcoins(Player p, Integer value) {
-        if (file.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-            if (value < 0) {
-                cfg.set(p.getUniqueId() + ".mobcoins", 0);
-            } else {
-                cfg.set(p.getUniqueId() + ".mobcoins", value);
-            }
-        }
-    }
 
     public void reload(CommandSender sender) {
         if (file.exists()) {
