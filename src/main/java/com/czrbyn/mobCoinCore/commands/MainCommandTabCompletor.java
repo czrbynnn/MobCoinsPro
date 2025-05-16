@@ -13,7 +13,7 @@ import java.util.List;
 public class MainCommandTabCompletor implements TabCompleter {
 
     private static final List<String> SUBCOMMANDS = Arrays.asList(
-            "balance", "give", "take", "set", "shop", "top", "reload", "version"
+            "balance", "give", "take", "set", "top", "reload", "version"
     );
 
     @Override
@@ -29,7 +29,7 @@ public class MainCommandTabCompletor implements TabCompleter {
             }
         }
 
-        if (args.length == 2) {
+        if (args.length == 2 && sender.hasPermission("mobcoin.admin")) {
             String sub = args[0].toLowerCase();
             if (sub.equals("give") || sub.equals("take") || sub.equals("set")) {
                 for (Player p : Bukkit.getOnlinePlayers()) {

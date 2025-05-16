@@ -6,9 +6,12 @@ C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCo
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\commands\subcommands\HelpSubCommand.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\commands\subcommands\ReloadSubCommand.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\commands\subcommands\VersionSubCommand.java
-C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\data\MainConfigManager.java
+C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\data\BaseValues.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\data\MobCoinManager.java
+C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\data\ValuesManager.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\guis\LeaderBoardGUI.java
+C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\listeners\MobKillListener.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\listeners\PlayerJoinListener.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\MobCoinCore.java
+C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\placeholderAPI\MobCoinsExpansion.java
 C:\Coding Utils\Minecraft Plugins\MobCoinCore\src\main\java\com\czrbyn\mobCoinCore\utils\ColorUtils.java

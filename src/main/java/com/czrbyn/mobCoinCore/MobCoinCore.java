@@ -5,12 +5,12 @@ import com.czrbyn.mobCoinCore.commands.MainCommand;
 import com.czrbyn.mobCoinCore.commands.MainCommandTabCompletor;
 import com.czrbyn.mobCoinCore.commands.subcommands.*;
 import com.czrbyn.mobCoinCore.data.BaseValues;
-import com.czrbyn.mobCoinCore.data.MainConfigManager;
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
 import com.czrbyn.mobCoinCore.data.ValuesManager;
 import com.czrbyn.mobCoinCore.guis.LeaderBoardGUI;
 import com.czrbyn.mobCoinCore.listeners.MobKillListener;
 import com.czrbyn.mobCoinCore.listeners.PlayerJoinListener;
+import com.czrbyn.mobCoinCore.placeholderAPI.MobCoinsExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,7 +20,6 @@ import java.util.List;
 public final class MobCoinCore extends JavaPlugin {
 
     private static MobCoinCore plugin;
-    private MainConfigManager mcm;
     private MobCoinManager mcoinm;
 
     private VersionSubCommand vsc;
@@ -40,14 +39,13 @@ public final class MobCoinCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        saveDefaultConfig();
 
         plugin = this;
-        mcm = new MainConfigManager();
         mcoinm = new MobCoinManager();
 
         bv = new BaseValues();
         vm = new ValuesManager();
+
 
         registerListeners();
 
@@ -55,13 +53,18 @@ public final class MobCoinCore extends JavaPlugin {
 
         MobCoinAPI.setInstance(new MobCoinAPI(this.mcoinm));
 
-
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new MobCoinsExpansion(this).register();
+            System.out.println("PlaceholderAPI Found, placeholders enabled (%mobcoins%)");
+        } else {
+            System.out.println("PlaceholderAPI Not found, placeholders will not work.");
+        }
 
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 
     public void registerCommands() {
@@ -71,6 +74,8 @@ public final class MobCoinCore extends JavaPlugin {
         bsc = new BalanceSubCommand();
         rsc = new ReloadSubCommand();
         gtssc = new GiveTakeSetSubCommand();
+
+
 
         mcmd = new MainCommand(this);
         getCommand("mobcoin").setExecutor(mcmd);
@@ -90,10 +95,6 @@ public final class MobCoinCore extends JavaPlugin {
 
     public static MobCoinCore getInstance() {
         return plugin;
-    }
-
-    public MainConfigManager getMcm() {
-        return mcm;
     }
 
     public List<Object> getSubcommands() {

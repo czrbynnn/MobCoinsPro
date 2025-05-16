@@ -15,6 +15,7 @@ public class MobCoinManager {
 
     private MobCoinCore mcc;
     private File file;
+    private FileConfiguration cfg;
 
     public MobCoinManager() {
         mcc = MobCoinCore.getInstance();
@@ -22,12 +23,16 @@ public class MobCoinManager {
 
         if (!file.exists()) {
             try {
+                file.createNewFile();
+
                 System.out.println("MobCoinData file does not exist, trying to create it now: Created Successfully:" + file.createNewFile());
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException();
             }
         }
+
+        cfg = YamlConfiguration.loadConfiguration(file);
     }
 
     public File getFile() {
@@ -36,7 +41,6 @@ public class MobCoinManager {
 
     public Integer getPlayerMobcoins(OfflinePlayer p) {
         if (file.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             return cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
         }
         return 0;
@@ -45,17 +49,15 @@ public class MobCoinManager {
     public void removeMobcoinsFromPlayer(OfflinePlayer p, int toRemove) {
         if (!file.exists()) return;
 
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         int current = cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
         int newAmount = Math.max(current - toRemove, 0);
         cfg.set(p.getUniqueId() + ".mobcoins", newAmount);
-        saveConfig(cfg);
+        saveConfig();
     }
 
     public void addMobcoinsToPlayer(OfflinePlayer p, int toAdd) {
         if (!file.exists()) return;
 
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         int current = cfg.getInt(p.getUniqueId() + ".mobcoins", 0);
         int newAmount = current + toAdd;
 
@@ -64,18 +66,17 @@ public class MobCoinManager {
         }
 
         cfg.set(p.getUniqueId() + ".mobcoins", newAmount);
-        saveConfig(cfg);
+        saveConfig();
     }
 
     public void setMobcoins(OfflinePlayer p, int value) {
         if (!file.exists()) return;
 
-        FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
         cfg.set(p.getUniqueId() + ".mobcoins", Math.max(value, 0));
-        saveConfig(cfg);
+        saveConfig();
     }
 
-    private void saveConfig(FileConfiguration cfg) {
+    public void saveConfig() {
         try {
             cfg.save(file);
         } catch (IOException e) {
@@ -86,7 +87,6 @@ public class MobCoinManager {
 
     public void reload(CommandSender sender) {
         if (file.exists()) {
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             try {
                 cfg.save(file);
                 sender.sendMessage(ColorUtils.colorize("&8[&bMobCoins&8] &fShould be a &asuccess&f! Make sure to check first."));

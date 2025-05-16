@@ -1,14 +1,17 @@
 package com.czrbyn.mobCoinCore.commands.subcommands;
 
 import com.czrbyn.mobCoinCore.MobCoinCore;
+import com.czrbyn.mobCoinCore.data.ValuesManager;
 import org.bukkit.command.CommandSender;
 
 public class ReloadSubCommand {
 
     private MobCoinCore mcc;
+    private ValuesManager vm;
 
     public ReloadSubCommand() {
         mcc = MobCoinCore.getInstance();
+        vm = mcc.getVm();
     }
 
     public boolean Execute(CommandSender sender) {
@@ -21,8 +24,9 @@ public class ReloadSubCommand {
 
             mcc.reloadConfig();
 
-            mcc.getMcm().reload();
             mcc.getMcoinm().reload(sender);
+
+            vm.reload();
 
             long end = System.currentTimeMillis();
             sender.sendMessage("§aMobCoins config reloaded in §f" + (end - start) + "ms§a.");
