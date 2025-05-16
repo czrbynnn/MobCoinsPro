@@ -60,11 +60,15 @@ public class ValuesManager {
     }
 
     public Integer getCoins(String entityName) {
-        return cfg.getInt(entityName);
+        return cfg.getInt(entityName, 0);
     }
 
     public boolean isEnabled() {
         return cfg.getBoolean("enabled");
+    }
+
+    public void setEnabled(boolean toSet) {
+        cfg.set("enabled", toSet);
     }
 
     public void reload() {

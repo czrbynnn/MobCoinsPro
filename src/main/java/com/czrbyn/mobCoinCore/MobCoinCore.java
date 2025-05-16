@@ -51,7 +51,7 @@ public final class MobCoinCore extends JavaPlugin {
 
         registerCommands();
 
-        MobCoinAPI.setInstance(new MobCoinAPI(this.mcoinm));
+        MobCoinAPI.setInstance(new MobCoinAPI(this.mcoinm, this.vm));
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new MobCoinsExpansion(this).register();

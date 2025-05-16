@@ -3,6 +3,8 @@ package com.czrbyn.mobCoinCore.api;
 import java.util.UUID;
 
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
+import com.czrbyn.mobCoinCore.data.ValuesManager;
+import com.sun.jdi.Value;
 import org.bukkit.entity.Player;
 
 public class MobCoinAPI {
@@ -18,9 +20,11 @@ public class MobCoinAPI {
     }
 
     private final MobCoinManager manager;
+    private final ValuesManager vm;
 
-    public MobCoinAPI(MobCoinManager manager) {
+    public MobCoinAPI(MobCoinManager manager, ValuesManager vm) {
         this.manager = manager;
+        this.vm = vm;
     }
 
     public void addMobCoins(Player player, int amount) {
@@ -41,5 +45,14 @@ public class MobCoinAPI {
 
     public void subtract(Player p, int amount) {
         manager.removeMobcoinsFromPlayer(p, amount);
+    }
+
+    public Integer getCoin(String entityName) {
+        return vm.getCoins(entityName);
+    }
+
+    public void setEnabled(boolean toSet) {
+        vm.setEnabled(toSet);
+        vm.save();
     }
 }
