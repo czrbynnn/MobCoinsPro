@@ -4,13 +4,14 @@ import com.czrbyn.mobCoinCore.api.MobCoinAPI;
 import com.czrbyn.mobCoinCore.commands.MainCommand;
 import com.czrbyn.mobCoinCore.commands.MainCommandTabCompletor;
 import com.czrbyn.mobCoinCore.commands.subcommands.*;
+import com.czrbyn.mobCoinCore.data.BaseValues;
 import com.czrbyn.mobCoinCore.data.MainConfigManager;
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
-import com.czrbyn.mobCoinCore.data.ShopsConfigManager;
+import com.czrbyn.mobCoinCore.data.ValuesManager;
 import com.czrbyn.mobCoinCore.guis.LeaderBoardGUI;
+import com.czrbyn.mobCoinCore.listeners.MobKillListener;
 import com.czrbyn.mobCoinCore.listeners.PlayerJoinListener;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -28,14 +29,14 @@ public final class MobCoinCore extends JavaPlugin {
     private ReloadSubCommand rsc;
     private GiveTakeSetSubCommand gtssc;
 
-    private ShopsConfigManager scm;
-
     private MainCommand mcmd;
 
     private PlayerJoinListener pjl;
     private LeaderBoardGUI lbgui;
+    private MobKillListener mkl;
 
-
+    private BaseValues bv;
+    private ValuesManager vm;
 
     @Override
     public void onEnable() {
@@ -45,11 +46,16 @@ public final class MobCoinCore extends JavaPlugin {
         mcm = new MainConfigManager();
         mcoinm = new MobCoinManager();
 
+        bv = new BaseValues();
+        vm = new ValuesManager();
+
         registerListeners();
 
         registerCommands();
 
         MobCoinAPI.setInstance(new MobCoinAPI(this.mcoinm));
+
+
 
     }
 
@@ -66,8 +72,6 @@ public final class MobCoinCore extends JavaPlugin {
         rsc = new ReloadSubCommand();
         gtssc = new GiveTakeSetSubCommand();
 
-        scm = new ShopsConfigManager();
-
         mcmd = new MainCommand(this);
         getCommand("mobcoin").setExecutor(mcmd);
         getCommand("mobcoin").setTabCompleter(new MainCommandTabCompletor());
@@ -79,6 +83,9 @@ public final class MobCoinCore extends JavaPlugin {
 
         lbgui = new LeaderBoardGUI();
         Bukkit.getPluginManager().registerEvents(lbgui, this);
+
+        mkl = new MobKillListener();
+        Bukkit.getPluginManager().registerEvents(mkl, this);
     }
 
     public static MobCoinCore getInstance() {
@@ -101,15 +108,19 @@ public final class MobCoinCore extends JavaPlugin {
         return l;
     }
 
-    public ShopsConfigManager getScm() {
-        return scm;
-    }
-
     public MobCoinManager getMcoinm() {
         return mcoinm;
     }
 
     public LeaderBoardGUI getLbgui() {
         return lbgui;
+    }
+
+    public BaseValues getBv() {
+        return bv;
+    }
+
+    public ValuesManager getVm() {
+        return vm;
     }
 }
