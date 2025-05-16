@@ -46,7 +46,24 @@ Listen for MobCoin-related events
 
 Integrate custom features like shops, leaderboards, or rewards
 
+**access the api like this:**
 
+_Add to pom.xml:_
+
+    <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+_Then, add the dependency:_
+
+    <dependency>
+	    <groupId>com.github.czrbynnn</groupId>
+	    <artifactId>MobCoinsPro</artifactId>
+	    <version>Tag</version>
+	</dependency>
 
 Support & Community
 If you want to report bugs, request features, or get the latest updates and addons, please join our official Discord:
