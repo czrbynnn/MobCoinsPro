@@ -62,7 +62,7 @@ _Then, add the dependency:_
     <dependency>
 	    <groupId>com.github.czrbynnn</groupId>
 	    <artifactId>MobCoinsPro</artifactId>
-	    <version>Tag</version>
+	    <version>1.0.0</version>
 	</dependency>
 
 Support & Community
