@@ -38,6 +38,8 @@ public class MainCommand implements CommandExecutor {
 
         this.lbgui = mcc.getLbgui();
 
+
+
         this.file = mcoinm.getFile();
 
     }
@@ -76,36 +78,34 @@ public class MainCommand implements CommandExecutor {
             }
         }
 
-        if (args.length >= 1) {
-            switch (args[0].toLowerCase()) {
-                case "balance" -> {
-                    bsc.Execute(sender, args, mcoinm);
-                    return true;
+        switch (args[0].toLowerCase()) {
+            case "balance" -> {
+                bsc.Execute(sender, args, mcoinm);
+                return true;
+            }
+            case "give" -> {
+                if (args.length > 2) {
+                    gtssc.Give(sender, args, mcoinm);
+                } else {
+                    sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins give <player> <amount>"));
                 }
-                case "give" -> {
-                    if (args.length > 2) {
-                        gtssc.Give(sender, args, mcoinm);
-                    } else {
-                        sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins give <player> <amount>"));
-                    }
-                    return true;
+                return true;
+            }
+            case "take" -> {
+                if (args.length > 2) {
+                    gtssc.Take(sender, args, mcoinm);
+                } else {
+                    sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins take <player> <amount>"));
                 }
-                case "take" -> {
-                    if (args.length > 2) {
-                        gtssc.Take(sender, args, mcoinm);
-                    } else {
-                        sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins take <player> <amount>"));
-                    }
-                    return true;
+                return true;
+            }
+            case "set" -> {
+                if (args.length > 2) {
+                    gtssc.Set(sender, args, mcoinm);
+                } else {
+                    sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins set <player> <amount>"));
                 }
-                case "set" -> {
-                    if (args.length > 2) {
-                        gtssc.Set(sender, args, mcoinm);
-                    } else {
-                        sender.sendMessage(ColorUtils.colorize("&cUsage: /mobcoins set <player> <amount>"));
-                    }
-                    return true;
-                }
+                return true;
             }
         }
 

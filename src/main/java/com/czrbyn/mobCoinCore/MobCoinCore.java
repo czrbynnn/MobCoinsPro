@@ -6,6 +6,7 @@ import com.czrbyn.mobCoinCore.commands.MainCommandTabCompletor;
 import com.czrbyn.mobCoinCore.commands.subcommands.*;
 import com.czrbyn.mobCoinCore.data.MainConfigManager;
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
+import com.czrbyn.mobCoinCore.data.ShopsConfigManager;
 import com.czrbyn.mobCoinCore.guis.LeaderBoardGUI;
 import com.czrbyn.mobCoinCore.listeners.PlayerJoinListener;
 import org.bukkit.Bukkit;
@@ -27,6 +28,8 @@ public final class MobCoinCore extends JavaPlugin {
     private ReloadSubCommand rsc;
     private GiveTakeSetSubCommand gtssc;
 
+    private ShopsConfigManager scm;
+
     private MainCommand mcmd;
 
     private PlayerJoinListener pjl;
@@ -41,8 +44,6 @@ public final class MobCoinCore extends JavaPlugin {
         plugin = this;
         mcm = new MainConfigManager();
         mcoinm = new MobCoinManager();
-
-        ConfigurationSerialization.registerClass(ShopItem.class);
 
         registerListeners();
 
@@ -65,7 +66,9 @@ public final class MobCoinCore extends JavaPlugin {
         rsc = new ReloadSubCommand();
         gtssc = new GiveTakeSetSubCommand();
 
-        mcmd = new MainCommand();
+        scm = new ShopsConfigManager();
+
+        mcmd = new MainCommand(this);
         getCommand("mobcoin").setExecutor(mcmd);
         getCommand("mobcoin").setTabCompleter(new MainCommandTabCompletor());
     }
@@ -96,6 +99,10 @@ public final class MobCoinCore extends JavaPlugin {
         l.add(gtssc);
 
         return l;
+    }
+
+    public ShopsConfigManager getScm() {
+        return scm;
     }
 
     public MobCoinManager getMcoinm() {
