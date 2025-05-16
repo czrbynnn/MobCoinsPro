@@ -3,6 +3,10 @@ package com.czrbyn.mobCoinCore.listeners;
 import com.czrbyn.mobCoinCore.MobCoinCore;
 import com.czrbyn.mobCoinCore.data.MobCoinManager;
 import com.czrbyn.mobCoinCore.data.ValuesManager;
+import com.czrbyn.mobCoinCore.events.MobCoinGainEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,8 +29,16 @@ public class MobKillListener implements Listener {
         Player killer = e.getEntity().getKiller();
 
         if (killer != null && vm.isEnabled()) {
-            if (vm.getCoins(e.getEntity().getType().toString().toLowerCase()) > 0) {
-                mcm.addMobcoinsToPlayer(killer, vm.getCoins(e.getEntity().getType().toString().toLowerCase()));
+            String mobType = e.getEntity().getType().toString().toLowerCase();
+            int baseAmount = vm.getCoins(mobType);
+
+            if (baseAmount > 0) {
+                MobCoinGainEvent event = new MobCoinGainEvent(killer, baseAmount);
+                Bukkit.getPluginManager().callEvent(event);
+
+                if (vm.isEnabled()) {
+                    mcm.addMobcoinsToPlayer(killer, (int) Math.round(event.getFinalAmount()));
+                }
             }
         }
     }
